@@ -1,0 +1,19 @@
+# Dockerfile.consumer
+FROM python:3.10-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY kafka_real_time_detector.py .
+COPY isoforest_model.pkl .
+CMD ["python", "kafka_real_time_detector.py"]
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}≈y
+

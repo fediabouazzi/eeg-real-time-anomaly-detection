@@ -1,0 +1,8 @@
+pandas
+numpy
+matplotlib
+scikit-learn
+streamlit
+kafka-python
+psycopg2-binary
+mne

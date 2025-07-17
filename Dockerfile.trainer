@@ -1,0 +1,19 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY init_model.py .
+COPY preprocessing.py .
+COPY sensor_data.csv .
+
+RUN python preprocessing.py
+CMD ["python", "init_model.py"]
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}

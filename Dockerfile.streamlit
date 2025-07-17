@@ -1,0 +1,19 @@
+# Dockerfile.streamlit
+FROM python:3.10-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY streamlit_anomaly_dashboard.py .
+#COPY realtime_anomaly_log.csv .
+
+CMD ["streamlit", "run", "streamlit_anomaly_dashboard.py", "--server.port=8501", "--server.enableCORS=false"]
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
